@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MyForumProject.BL.Entities;
+using System.Net.Mail;
 
 namespace MyForumProject.Web.Areas.Identity.Pages.Account
 {
@@ -65,8 +66,14 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            /// 
+
+            //[Required]
+            //[EmailAddress]
+            //public string Email { get; set; }
+
             [Required]
-            [EmailAddress]
+            [Display(Name = "Email / Username")]
             public string Email { get; set; }
 
             /// <summary>
@@ -83,6 +90,20 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account
             /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+
+            public bool IsValidEmail(string emailaddress)
+            {
+                try
+                {
+                    MailAddress m = new MailAddress(emailaddress);
+                    return true;
+                }
+                catch (FormatException)
+                {
+                    return false;
+                }
+            }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -112,7 +133,19 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                var userName = Input.Email;
+                if (Input.IsValidEmail(Input.Email))
+                {
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    if (user != null)
+                    {
+                        userName = user.UserName;
+                    }
+                }
+
+
+                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
