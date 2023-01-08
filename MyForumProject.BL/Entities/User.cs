@@ -13,5 +13,9 @@ namespace MyForumProject.BL.Entities
         public string? LastName { get; set; }
         public int? UsernameChangeLimit { get; set; } = 10;
         public byte[]? ProfilePicture { get; set; }
-    }
+		public virtual List<Post>? Posts { get; set; }
+		public virtual List<Comment>? Comments { get; set; }
+		public virtual List<Blog>? Blogs { get; set; }
+        
+	}
 }

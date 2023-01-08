@@ -11,21 +11,28 @@
 </p>
 @foreach (var item in Model)
 {
-  <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        
-                <span class="w3-right w3-opacity">  @Html.DisplayFor(modelItem => item.PublishedDateTime)</span>
-                <h4>  @Html.DisplayFor(modelItem => item.Title)</h4><br>
-        <hr class="w3-clear">
-        
-        <div class=" card-body">
-            @Html.Raw(@item.Content)
-        </div>
-                 <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
-               
-      </div>
-}
+    
+<div class="card text-center">
+  <div class="card-header">
+			@Html.DisplayFor(modelItem => item.Blog.Nom)
+  </div>
+  <div class="card-body">
+            <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
+            <div class="card-text"> @Html.Raw(@item.Content)</div>
+    
+  </div>
+        <div class="card-footer text-muted d-flex justify-content-between">
+            @Html.DisplayFor(modelItem => item.PublishedDateTime)
+            <div>
+                <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+            </div>
+  </div>
+</div>
+<br />}
+
+
 <table class="table">
     <thead>
         <tr>

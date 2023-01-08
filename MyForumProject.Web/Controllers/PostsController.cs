@@ -24,6 +24,9 @@ namespace MyForumProject.Web.Controllers
         {
             var myForumProjectDbContext = _context.Posts.Include(p => p.Blog);
             return View(await myForumProjectDbContext.ToListAsync());
+            //get blog name 
+            
+
         }
 
         // GET: Posts/Details/5

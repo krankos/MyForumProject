@@ -16,5 +16,6 @@ namespace MyForumProject.BL.Entities
         public string? Nom { get; set; }
         public string? description { get; set; }
         public virtual List<Post>? Posts { get; set; }
+        public User? Owner { get; set; }
     }
 }

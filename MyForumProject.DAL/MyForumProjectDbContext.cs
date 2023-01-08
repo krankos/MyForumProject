@@ -14,8 +14,9 @@ namespace MyForumProject.DAL
     {
         public DbSet<Blog>? Blogs { get; set; }
         public DbSet<Post>? Posts { get; set; }
-        
-        public override DbSet<User>? Users { get; set; }
+		public DbSet<Comment>? Comments { get; set; }
+
+		public override DbSet<User>? Users { get; set; }
         public MyForumProjectDbContext(DbContextOptions<MyForumProjectDbContext> options)
             : base(options)
         {
@@ -33,8 +34,50 @@ namespace MyForumProject.DAL
                     .HasMany<Post>(g => g.Posts)
                     .WithOne(s => s.Blog)
                     .HasForeignKey(s => s.BlogId);
+			//onetomany relationship between post and comment
+			modelBuilder.Entity<Post>()
+				.HasMany<Comment>(g => g.Comments)
+				.WithOne(s => s.Post)
+				.HasForeignKey(s => s.CommentId);
+			//manytoone relationship between comment and post
+			modelBuilder.Entity<Comment>()
+				.HasOne<Post>(s => s.Post)
+				.WithMany(g => g.Comments)
+				.HasForeignKey(s => s.CommentId);
 
-            modelBuilder.HasDefaultSchema("Identity");
+			//one to many relationship between user and blog
+			modelBuilder.Entity<User>()
+				.HasMany<Blog>(g => g.Blogs)
+				.WithOne(s => s.Owner)
+				.HasForeignKey(s => s.Owner);
+			//many to one relationship between blog and user
+			modelBuilder.Entity<Blog>()
+				.HasOne<User>(s => s.Owner)
+				.WithMany(g => g.Blogs)
+				.HasForeignKey(s => s.Owner);
+
+			//one to many relationship between user and post
+			modelBuilder.Entity<User>()
+				.HasMany<Post>(g => g.Posts)
+				.WithOne(s => s.Owner)
+				.HasForeignKey(s => s.Owner);
+			//many to one relationship between post and user
+			modelBuilder.Entity<Post>()
+				.HasOne<User>(s => s.Owner)
+				.WithMany(g => g.Posts)
+				.HasForeignKey(s => s.Owner);
+			//one to many relationship between user and comment
+			modelBuilder.Entity<User>()
+				.HasMany<Comment>(g => g.Comments)
+				.WithOne(s => s.Owner)
+				.HasForeignKey(s => s.Owner);
+			//many to one relationship between comment and user
+			modelBuilder.Entity<Comment>()
+				.HasOne<User>(s => s.Owner)
+				.WithMany(g => g.Comments)
+				.HasForeignKey(s => s.Owner);
+
+			modelBuilder.HasDefaultSchema("Identity");
             modelBuilder.Entity<IdentityUser>(entity =>
             {
                 entity.ToTable(name: "User");

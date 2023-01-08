@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,14 +19,18 @@ namespace MyForumProject.Web.Controllers
         public BlogsController(MyForumProjectDbContext context)
         {
             _context = context;
-        }
+            
+			
+			
+		}
 
-        // GET: Blogs
-        public async Task<IActionResult> Index()
+		// GET: Blogs
+		public async Task<IActionResult> Index()
         {
               return View(await _context.Blogs.ToListAsync());
-           
-        }
+			
+
+		}
 
         // GET: Blogs/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -41,10 +46,14 @@ namespace MyForumProject.Web.Controllers
             {
                 return NotFound();
             }
+            // get posts of the blog
+            var posts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
+            blog.Posts = posts;
             if (blog.Posts == null)
             {
-                return View(blog);
+                return NotFound();
             }
+            
 
             return View(blog);
         }
