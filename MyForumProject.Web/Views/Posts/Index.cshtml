@@ -9,6 +9,23 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@foreach (var item in Model)
+{
+  <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+        
+                <span class="w3-right w3-opacity">  @Html.DisplayFor(modelItem => item.PublishedDateTime)</span>
+                <h4>  @Html.DisplayFor(modelItem => item.Title)</h4><br>
+        <hr class="w3-clear">
+        
+        <div class=" card-body">
+            @Html.Raw(@item.Content)
+        </div>
+                 <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+               
+      </div>
+}
 <table class="table">
     <thead>
         <tr>

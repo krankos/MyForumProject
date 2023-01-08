@@ -25,6 +25,14 @@ namespace MyForumProject.DAL
         {
             base.OnModelCreating(modelBuilder);
             /* TODO: add code */
+            modelBuilder.Entity<Post>()
+                   .HasOne<Blog>(s => s.Blog)
+                   .WithMany(g => g.Posts)
+                   .HasForeignKey(s => s.BlogId);
+            modelBuilder.Entity<Blog>()
+                    .HasMany<Post>(g => g.Posts)
+                    .WithOne(s => s.Blog)
+                    .HasForeignKey(s => s.BlogId);
 
             modelBuilder.HasDefaultSchema("Identity");
             modelBuilder.Entity<IdentityUser>(entity =>
