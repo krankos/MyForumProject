@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using MyForumProject.BL.Entities;
 using MyForumProject.DAL;
 
@@ -23,6 +24,7 @@ namespace MyForumProject.Web.Controllers
         public async Task<IActionResult> Index()
         {
               return View(await _context.Blogs.ToListAsync());
+           
         }
 
         // GET: Blogs/Details/5
@@ -38,6 +40,10 @@ namespace MyForumProject.Web.Controllers
             if (blog == null)
             {
                 return NotFound();
+            }
+            if (blog.Posts == null)
+            {
+                return View(blog);
             }
 
             return View(blog);

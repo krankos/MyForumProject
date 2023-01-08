@@ -9,6 +9,23 @@
 <div>
     <h4>Blog</h4>
     <hr />
+    <div>
+    
+        @if (Model.Posts != null)
+        {
+             @foreach (var item1 in Model.Posts)
+        {
+            <div>  @Html.DisplayFor(modelItem => item1.Title)</div>
+        }
+        }
+        else{
+            <h3>No posts found</h3>
+        }
+       
+    
+
+    
+</div>
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nom)
