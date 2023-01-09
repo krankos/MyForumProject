@@ -221,7 +221,7 @@ namespace MyForumProject.DAL.Migrations
                     b.Property<string>("Nom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BlogId");

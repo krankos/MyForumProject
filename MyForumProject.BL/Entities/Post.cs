@@ -23,7 +23,9 @@ namespace MyForumProject.BL.Entities
         public Blog? Blog { get; set; }
 		public virtual List<Comment>? Comments { get; set; }
 
-		public User? Owner { get; set; }
+        [ForeignKey("Owner")]
+        public string OwnerId { get; set; }
+        public User? Owner { get; set; }
 
 	}
 }
