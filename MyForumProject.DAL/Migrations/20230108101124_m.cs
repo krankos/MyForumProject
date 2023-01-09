@@ -12,7 +12,7 @@ namespace MyForumProject.DAL.Migrations
                 name: "Url",
                 schema: "Identity",
                 table: "Blogs",
-                newName: "description");
+                newName: "Description");
 
             migrationBuilder.AddColumn<string>(
                 name: "Nom",
@@ -30,7 +30,7 @@ namespace MyForumProject.DAL.Migrations
                 table: "Blogs");
 
             migrationBuilder.RenameColumn(
-                name: "description",
+                name: "Description",
                 schema: "Identity",
                 table: "Blogs",
                 newName: "Url");

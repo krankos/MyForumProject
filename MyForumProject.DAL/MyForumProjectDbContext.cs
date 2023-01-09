@@ -49,33 +49,33 @@ namespace MyForumProject.DAL
 			modelBuilder.Entity<User>()
 				.HasMany<Blog>(g => g.Blogs)
 				.WithOne(s => s.Owner)
-				.HasForeignKey(s => s.Owner);
+				.HasForeignKey(s => s.OwnerId);
 			//many to one relationship between blog and user
 			modelBuilder.Entity<Blog>()
 				.HasOne<User>(s => s.Owner)
 				.WithMany(g => g.Blogs)
-				.HasForeignKey(s => s.Owner);
+				.HasForeignKey(s => s.OwnerId);
 
 			//one to many relationship between user and post
 			modelBuilder.Entity<User>()
 				.HasMany<Post>(g => g.Posts)
 				.WithOne(s => s.Owner)
-				.HasForeignKey(s => s.Owner);
+				.HasForeignKey(s => s.OwnerId);
 			//many to one relationship between post and user
 			modelBuilder.Entity<Post>()
 				.HasOne<User>(s => s.Owner)
 				.WithMany(g => g.Posts)
-				.HasForeignKey(s => s.Owner);
+				.HasForeignKey(s => s.OwnerId);
 			//one to many relationship between user and comment
 			modelBuilder.Entity<User>()
 				.HasMany<Comment>(g => g.Comments)
 				.WithOne(s => s.Owner)
-				.HasForeignKey(s => s.Owner);
+				.HasForeignKey(s => s.OwnerId);
 			//many to one relationship between comment and user
 			modelBuilder.Entity<Comment>()
 				.HasOne<User>(s => s.Owner)
 				.WithMany(g => g.Comments)
-				.HasForeignKey(s => s.Owner);
+				.HasForeignKey(s => s.OwnerId);
 
 			modelBuilder.HasDefaultSchema("Identity");
             modelBuilder.Entity<IdentityUser>(entity =>
