@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyForumProject.DAL.Migrations
 {
-    public partial class RenamedIdentityTableNames : Migration
+    public partial class khalil : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,20 +40,6 @@ namespace MyForumProject.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Blogs",
-                schema: "Identity",
-                columns: table => new
-                {
-                    BlogId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Blogs", x => x.BlogId);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,6 +81,28 @@ namespace MyForumProject.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Blogs",
+                schema: "Identity",
+                columns: table => new
+                {
+                    BlogId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.BlogId);
+                    table.ForeignKey(
+                        name: "FK_Blogs_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalSchema: "Identity",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -165,30 +173,6 @@ namespace MyForumProject.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
-                schema: "Identity",
-                columns: table => new
-                {
-                    PostId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PublishedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BlogId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.PostId);
-                    table.ForeignKey(
-                        name: "FK_Posts_Blogs_BlogId",
-                        column: x => x.BlogId,
-                        principalSchema: "Identity",
-                        principalTable: "Blogs",
-                        principalColumn: "BlogId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 schema: "Identity",
                 columns: table => new
@@ -238,6 +222,66 @@ namespace MyForumProject.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                schema: "Identity",
+                columns: table => new
+                {
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PublishedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BlogId = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
+                    table.ForeignKey(
+                        name: "FK_Posts_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalSchema: "Identity",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Posts_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalSchema: "Identity",
+                        principalTable: "Blogs",
+                        principalColumn: "BlogId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                schema: "Identity",
+                columns: table => new
+                {
+                    CommentId = table.Column<int>(type: "int", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalSchema: "Identity",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comments_Posts_CommentId",
+                        column: x => x.CommentId,
+                        principalSchema: "Identity",
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 schema: "Identity",
@@ -253,10 +297,28 @@ namespace MyForumProject.DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Blogs_OwnerId",
+                schema: "Identity",
+                table: "Blogs",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_OwnerId",
+                schema: "Identity",
+                table: "Comments",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_BlogId",
                 schema: "Identity",
                 table: "Posts",
                 column: "BlogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_OwnerId",
+                schema: "Identity",
+                table: "Posts",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -294,7 +356,7 @@ namespace MyForumProject.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Posts",
+                name: "Comments",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
@@ -322,11 +384,15 @@ namespace MyForumProject.DAL.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "Blogs",
+                name: "Posts",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "Role",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Blogs",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

@@ -13,12 +13,13 @@ namespace MyForumProject.BL.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BlogId { get; set; }
-        public string? Nom { get; set; }
+		[Required]
+		public string? Nom { get; set; }
         public string? Description { get; set; }
         public virtual List<Post>? Posts { get; set; }
         
         [ForeignKey("Owner")]
-        public string OwnerId { get; set; }
+        public string? OwnerId { get; set; }
         public User? Owner { get; set; }
     }
 }

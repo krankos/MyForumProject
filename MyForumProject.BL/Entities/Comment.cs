@@ -21,7 +21,7 @@ namespace MyForumProject.BL.Entities
         public Post? Post { get; set; }
 
         [ForeignKey("Owner")]
-        public string OwnerId { get; set; }
+        public string? OwnerId { get; set; }
         public User? Owner { get; set; }
 
     }

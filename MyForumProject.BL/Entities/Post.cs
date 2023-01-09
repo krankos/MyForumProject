@@ -24,7 +24,7 @@ namespace MyForumProject.BL.Entities
 		public virtual List<Comment>? Comments { get; set; }
 
         [ForeignKey("Owner")]
-        public string OwnerId { get; set; }
+        public string? OwnerId { get; set; }
         public User? Owner { get; set; }
 
 	}

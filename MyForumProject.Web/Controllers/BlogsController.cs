@@ -8,32 +8,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using MyForumProject.BL.Entities;
+using System.Security.Principal;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
+
 using MyForumProject.DAL;
 
 namespace MyForumProject.Web.Controllers
 {
     public class BlogsController : Controller
-    {
-        private readonly MyForumProjectDbContext _context;
+	{
+		private readonly MyForumProjectDbContext _context;
+        //get current user id from the session
+        
+
+		
+        
 
         public BlogsController(MyForumProjectDbContext context)
         {
             _context = context;
-            
-			
-			
+           
 		}
 
 		// GET: Blogs
 		public async Task<IActionResult> Index()
         {
               return View(await _context.Blogs.ToListAsync());
-			
 
+			
+            
 		}
 
-        // GET: Blogs/Details/5
-        public async Task<IActionResult> Details(int? id)
+		// GET: Blogs/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Blogs == null)
             {
@@ -69,10 +77,18 @@ namespace MyForumProject.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BlogId,Nom,Description")] Blog blog)
+        public async Task<IActionResult> Create([Bind("BlogId,Nom,Description,OwnerId")] Blog blog)
         {
             if (ModelState.IsValid)
-            {
+            {  // get current user id from the session
+               
+                
+                //write userId in the console
+                
+
+
+                blog.OwnerId = User.Identity.GetUserId();
+                Console.WriteLine(blog.OwnerId);
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -12,8 +12,8 @@ using MyForumProject.DAL;
 namespace MyForumProject.DAL.Migrations
 {
     [DbContext(typeof(MyForumProjectDbContext))]
-    [Migration("20230108173400_m4")]
-    partial class m4
+    [Migration("20230109094942_khalil")]
+    partial class khalil
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -218,15 +218,46 @@ namespace MyForumProject.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BlogId"), 1L, 1);
 
-                    b.Property<string>("Nom")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("BlogId");
 
+                    b.HasIndex("OwnerId");
+
                     b.ToTable("Blogs", "Identity");
+                });
+
+            modelBuilder.Entity("MyForumProject.BL.Entities.Comment", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Comments", "Identity");
                 });
 
             modelBuilder.Entity("MyForumProject.BL.Entities.Post", b =>
@@ -240,11 +271,11 @@ namespace MyForumProject.DAL.Migrations
                     b.Property<int>("BlogId")
                         .HasColumnType("int");
 
-                    b.Property<string>("BlogName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PublishedDateTime")
                         .HasColumnType("datetime2");
@@ -255,6 +286,8 @@ namespace MyForumProject.DAL.Migrations
                     b.HasKey("PostId");
 
                     b.HasIndex("BlogId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Posts", "Identity");
                 });
@@ -387,6 +420,32 @@ namespace MyForumProject.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyForumProject.BL.Entities.Blog", b =>
+                {
+                    b.HasOne("MyForumProject.BL.Entities.User", "Owner")
+                        .WithMany("Blogs")
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("MyForumProject.BL.Entities.Comment", b =>
+                {
+                    b.HasOne("MyForumProject.BL.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyForumProject.BL.Entities.User", "Owner")
+                        .WithMany("Comments")
+                        .HasForeignKey("OwnerId");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("MyForumProject.BL.Entities.Post", b =>
                 {
                     b.HasOne("MyForumProject.BL.Entities.Blog", "Blog")
@@ -395,11 +454,31 @@ namespace MyForumProject.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MyForumProject.BL.Entities.User", "Owner")
+                        .WithMany("Posts")
+                        .HasForeignKey("OwnerId");
+
                     b.Navigation("Blog");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("MyForumProject.BL.Entities.Blog", b =>
                 {
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("MyForumProject.BL.Entities.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("MyForumProject.BL.Entities.User", b =>
+                {
+                    b.Navigation("Blogs");
+
+                    b.Navigation("Comments");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

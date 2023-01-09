@@ -220,10 +220,10 @@ namespace MyForumProject.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nom")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BlogId");
@@ -246,7 +246,6 @@ namespace MyForumProject.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OwnerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PostId")
@@ -274,7 +273,6 @@ namespace MyForumProject.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("PublishedDateTime")
@@ -424,9 +422,7 @@ namespace MyForumProject.DAL.Migrations
                 {
                     b.HasOne("MyForumProject.BL.Entities.User", "Owner")
                         .WithMany("Blogs")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
@@ -441,9 +437,7 @@ namespace MyForumProject.DAL.Migrations
 
                     b.HasOne("MyForumProject.BL.Entities.User", "Owner")
                         .WithMany("Comments")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
 
@@ -460,9 +454,7 @@ namespace MyForumProject.DAL.Migrations
 
                     b.HasOne("MyForumProject.BL.Entities.User", "Owner")
                         .WithMany("Posts")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Blog");
 
