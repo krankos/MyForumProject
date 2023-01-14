@@ -193,6 +193,9 @@ namespace MyForumProject.Web.Controllers
 
         public IActionResult CreatePost(int? id)
         {
+            // Say hello and show the id of the blog
+            Console.WriteLine("Hello from CreatePost");
+            Console.WriteLine(id);
             if (id == null || _context.Blogs == null)
             {
                 return NotFound();
@@ -203,15 +206,38 @@ namespace MyForumProject.Web.Controllers
             {
                 return NotFound();
             }
-            return View(blog);
+            // create a new post and set the blog id
+            var post = new Post();
+            post.BlogId = blog.BlogId;
+            Console.WriteLine(post.BlogId);
+            return View(post);
         }
 
-        [HttpPost, ActionName("CreatePost")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePost([Bind("BlogId,PostId,Title,Content")] Post post)
+        [HttpPost]
+        public async Task<IActionResult> CreatePost(int id,[Bind("BlogId,PostId,Title,Content")] Post post)
         {
+            // Say hello
+            //Console.WriteLine("Hello from CreatePost");
+
+            // find the blog by id and set it to post
+            var blog = _context.Blogs.Find(id);
+            post.Blog = blog;
+            // set the blog id
+            post.BlogId = blog.BlogId;
+
+
             if (ModelState.IsValid)
             {
+                // Print the blog id
+                Console.WriteLine(post.BlogId);
+                // set owner
+                post.OwnerId = User.Identity.GetUserId();
+                post.Owner = _context.Users.Find(post.OwnerId);
+                post.OwnerName = post.Owner.UserName;
+                // dispalay owner info
+                Console.WriteLine(post.Owner.UserName);
+                DateTime now = DateTime.Now;
+                post.PublishedDateTime = now;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

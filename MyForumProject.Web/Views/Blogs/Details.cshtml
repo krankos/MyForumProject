@@ -54,7 +54,19 @@
           <div class="card-header">
 
 
-                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name!</a>
+                            <div class="d-flex flex-row ">
+                            <p><strong>Author :&nbsp;</strong></p>
+
+                        @*@Html.DisplayFor(modelItem => post.OwnerName)*@
+                        @if (post.OwnerName == null)
+						{
+							<p>Deleted</p>
+						}
+						else
+						{
+							<p>@Html.DisplayFor(modelItem => post.OwnerName)</p>
+						}
+</div>
                     
           </div>
           <div class="card-body">
