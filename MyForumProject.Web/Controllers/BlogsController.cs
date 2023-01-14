@@ -188,5 +188,36 @@ namespace MyForumProject.Web.Controllers
         {
           return _context.Blogs.Any(e => e.BlogId == id);
         }
+
+        // create new blog post
+
+        public IActionResult CreatePost(int? id)
+        {
+            if (id == null || _context.Blogs == null)
+            {
+                return NotFound();
+            }
+
+            var blog = _context.Blogs.Find(id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+            return View(blog);
+        }
+
+        [HttpPost, ActionName("CreatePost")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePost([Bind("BlogId,PostId,Title,Content")] Post post)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(post);
+        }
+
     }
 }
