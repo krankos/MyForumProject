@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +26,7 @@ namespace MyForumProject.Web.Controllers
         {
             var myForumProjectDbContext = _context.Posts.Include(p => p.Blog);
             return View(await myForumProjectDbContext.ToListAsync());
-            //get blog name 
+             
             
 
         }
@@ -64,6 +66,16 @@ namespace MyForumProject.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var OwnerId = User.Identity.GetUserId();
+                var OwnerName = User.Identity.GetUserName();
+                post.OwnerId = OwnerId;
+                post.OwnerName = OwnerName;
+
+
+
+
+
+
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

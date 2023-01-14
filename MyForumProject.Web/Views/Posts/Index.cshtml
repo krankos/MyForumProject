@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MyForumProject.BL.Entities.Post>
+﻿@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<MyForumProject.BL.Entities.Post>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,9 +16,9 @@
     
 <div class="card text-center">
   <div class="card-header">
-      
+            
 			
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name!</a>
             @Html.DisplayFor(modelItem => item.Blog.Nom)
   </div>
   <div class="card-body">

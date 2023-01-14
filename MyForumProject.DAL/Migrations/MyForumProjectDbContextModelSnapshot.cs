@@ -275,6 +275,9 @@ namespace MyForumProject.DAL.Migrations
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("PublishedDateTime")
                         .HasColumnType("datetime2");
 

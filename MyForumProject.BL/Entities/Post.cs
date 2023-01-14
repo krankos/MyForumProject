@@ -17,15 +17,18 @@ namespace MyForumProject.BL.Entities
         public string? Title { get; set; }
         public string? Content { get; set; }
         public DateTime PublishedDateTime { get; set; }
+        public string? OwnerName { get; set; }
         [ForeignKey("Blog")]
 
         public int BlogId { get; set; }
         public Blog? Blog { get; set; }
+        
 		public virtual List<Comment>? Comments { get; set; }
 
         [ForeignKey("Owner")]
         public string? OwnerId { get; set; }
         public User? Owner { get; set; }
+        
 
-	}
+    }
 }

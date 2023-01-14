@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyForumProject.DAL.Migrations
 {
-    public partial class khalil : Migration
+    public partial class malekko : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -232,6 +232,7 @@ namespace MyForumProject.DAL.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PublishedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },

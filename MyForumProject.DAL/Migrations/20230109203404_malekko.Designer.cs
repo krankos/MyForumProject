@@ -12,8 +12,8 @@ using MyForumProject.DAL;
 namespace MyForumProject.DAL.Migrations
 {
     [DbContext(typeof(MyForumProjectDbContext))]
-    [Migration("20230109094942_khalil")]
-    partial class khalil
+    [Migration("20230109203404_malekko")]
+    partial class malekko
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -276,6 +276,9 @@ namespace MyForumProject.DAL.Migrations
 
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OwnerName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishedDateTime")
                         .HasColumnType("datetime2");

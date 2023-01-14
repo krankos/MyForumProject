@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyForumProject.BL.Entities;
 using MyForumProject.Web.Models;
 using System.Diagnostics;
@@ -30,4 +31,7 @@ namespace MyForumProject.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+	
+
+
 }

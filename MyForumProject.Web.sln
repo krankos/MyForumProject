@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyForumProject.Web", "MyForumProject.Web\MyForumProject.Web.csproj", "{F5FEB783-3E25-46E0-A439-435C94601587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyForumProject.Web", "MyForumProject.Web\MyForumProject.Web.csproj", "{F5FEB783-3E25-46E0-A439-435C94601587}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyForumProject.BL", "MyForumProject.BL\MyForumProject.BL.csproj", "{D8DDD80E-C5BB-4E82-9BAA-7FE680F7B5A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyForumProject.BL", "MyForumProject.BL\MyForumProject.BL.csproj", "{D8DDD80E-C5BB-4E82-9BAA-7FE680F7B5A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyForumProject.DAL", "MyForumProject.DAL\MyForumProject.DAL.csproj", "{191B905F-1BAE-407E-88FF-9B512A1B14C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyForumProject.DAL", "MyForumProject.DAL\MyForumProject.DAL.csproj", "{191B905F-1BAE-407E-88FF-9B512A1B14C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
