@@ -1,0 +1,20 @@
+﻿@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNetCore.Identity;
+@model MyForumProject.BL.Entities.Post
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <p
+    <div class="form-group">
+        <label asp-for="Content" class="control-label"></label>
+        <textarea id="myEditor" asp-for="Content"> </textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+
+        <script>
+            var editor = new FroalaEditor('#myEditor')
+
+        </script>
+    </div>
+</div>
