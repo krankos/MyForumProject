@@ -1,7 +1,7 @@
 ﻿@model MyForumProject.BL.Entities.Post
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "CreatePost";
 }
 <link href="~/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="~/js/froala_editor.pkgd.min.js"></script>
@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="Create">
+        <form asp-action="CreatePost">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -42,7 +42,7 @@
             </div>*@
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create Post" class="btn btn-primary" />
             </div>
         </form>
     </div>

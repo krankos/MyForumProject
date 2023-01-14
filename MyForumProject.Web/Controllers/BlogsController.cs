@@ -193,6 +193,8 @@ namespace MyForumProject.Web.Controllers
 
         public IActionResult CreatePost(int? id)
         {
+            // Say hello
+            Console.WriteLine("Hello from CreatePost");
             if (id == null || _context.Blogs == null)
             {
                 return NotFound();
@@ -203,15 +205,23 @@ namespace MyForumProject.Web.Controllers
             {
                 return NotFound();
             }
-            return View(blog);
+            // create a new post and set the blog id
+            var post = new Post();
+            post.BlogId = blog.BlogId;
+            return View("CreatePost",post);
         }
 
-        [HttpPost, ActionName("CreatePost")]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> CreatePost([Bind("BlogId,PostId,Title,Content")] Post post)
         {
+            // Say hello
+            Console.WriteLine("Hello from CreatePost");
             if (ModelState.IsValid)
             {
+                // Print the blog id
+                Console.WriteLine(post.BlogId);
+                // set owner
+                post.OwnerId = User.Identity.GetUserId();
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
