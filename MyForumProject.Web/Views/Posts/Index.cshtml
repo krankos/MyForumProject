@@ -27,7 +27,7 @@
     
   </div>
         <div class="card-footer text-muted d-flex justify-content-between">
-            @Html.DisplayFor(modelItem => item.PublishedDateTime)
+            @Html.DisplayFor(modelItem => item.CreatedAt)
             <div>
                 
                 <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
@@ -49,7 +49,7 @@
                 @Html.DisplayNameFor(model => model.Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublishedDateTime)
+                @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Blog)
@@ -67,7 +67,7 @@
                 @Html.DisplayFor(modelItem => item.Content)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PublishedDateTime)
+                @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Blog.BlogId)

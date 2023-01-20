@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyForumProject.DAL.Migrations
 {
-    public partial class malekko : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -231,7 +231,7 @@ namespace MyForumProject.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PublishedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -259,9 +259,10 @@ namespace MyForumProject.DAL.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    CommentId = table.Column<int>(type: "int", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PostId = table.Column<int>(type: "int", nullable: false),
                     OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
@@ -275,8 +276,8 @@ namespace MyForumProject.DAL.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Comments_Posts_CommentId",
-                        column: x => x.CommentId,
+                        name: "FK_Comments_Posts_PostId",
+                        column: x => x.PostId,
                         principalSchema: "Identity",
                         principalTable: "Posts",
                         principalColumn: "PostId",
@@ -308,6 +309,12 @@ namespace MyForumProject.DAL.Migrations
                 schema: "Identity",
                 table: "Comments",
                 column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_PostId",
+                schema: "Identity",
+                table: "Comments",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_BlogId",

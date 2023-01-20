@@ -14,7 +14,7 @@ namespace MyForumProject.BL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CommentId { get; set; }
 	    public string? Body { get; set; }
-		public DateTime? CreatedDate { get; set; }
+		public DateTime? CreatedAt { get; set; }
 
         [ForeignKey("Post")]
         public int PostId { get; set; }

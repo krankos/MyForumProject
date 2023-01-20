@@ -237,7 +237,7 @@ namespace MyForumProject.Web.Controllers
                 // dispalay owner info
                 Console.WriteLine(post.Owner.UserName);
                 DateTime now = DateTime.Now;
-                post.PublishedDateTime = now;
+                post.CreatedAt = now;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

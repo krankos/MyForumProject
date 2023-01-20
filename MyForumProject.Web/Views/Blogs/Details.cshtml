@@ -75,7 +75,7 @@
 
           </div>
                 <div class="card-footer text-muted d-flex justify-content-between">
-                    @Html.DisplayFor(modelItem => post.PublishedDateTime)
+                    @Html.DisplayFor(modelItem => post.CreatedAt)
                     <div>
                         <a asp-action="Edit" asp-route-id="@post.PostId">Edit</a> |
                         <a asp-action="Details" asp-route-id="@post.PostId">Details</a> |

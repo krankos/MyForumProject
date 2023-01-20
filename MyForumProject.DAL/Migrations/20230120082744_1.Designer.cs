@@ -12,15 +12,15 @@ using MyForumProject.DAL;
 namespace MyForumProject.DAL.Migrations
 {
     [DbContext(typeof(MyForumProjectDbContext))]
-    [Migration("20230109203404_malekko")]
-    partial class malekko
+    [Migration("20230120082744_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Identity")
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -241,10 +241,12 @@ namespace MyForumProject.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"), 1L, 1);
+
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("CreatedDate")
+                    b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OwnerId")
@@ -256,6 +258,8 @@ namespace MyForumProject.DAL.Migrations
                     b.HasKey("CommentId");
 
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Comments", "Identity");
                 });
@@ -274,14 +278,14 @@ namespace MyForumProject.DAL.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("OwnerName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PublishedDateTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -434,15 +438,15 @@ namespace MyForumProject.DAL.Migrations
 
             modelBuilder.Entity("MyForumProject.BL.Entities.Comment", b =>
                 {
-                    b.HasOne("MyForumProject.BL.Entities.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MyForumProject.BL.Entities.User", "Owner")
                         .WithMany("Comments")
                         .HasForeignKey("OwnerId");
+
+                    b.HasOne("MyForumProject.BL.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Owner");
 

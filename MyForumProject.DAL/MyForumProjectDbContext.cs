@@ -37,7 +37,8 @@ namespace MyForumProject.DAL
             modelBuilder.Entity<Post>()
                 .HasMany<Comment>(g => g.Comments)
                 .WithOne(s => s.Post)
-                .HasForeignKey(s => s.CommentId);
+                .HasForeignKey(s => s.PostId);
+
             //one to many relationship between user and blog
             modelBuilder.Entity<User>()
                 .HasMany<Blog>(g => g.Blogs)
