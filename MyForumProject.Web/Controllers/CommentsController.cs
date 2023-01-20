@@ -151,19 +151,21 @@ namespace MyForumProject.Web.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
-        {
+        { // find the post of this commentid
+            
             if (_context.Comments == null)
             {
                 return Problem("Entity set 'MyForumProjectDbContext.Comments'  is null.");
             }
             var comment = await _context.Comments.FindAsync(id);
+            var post = await _context.Posts.FindAsync(comment.PostId);
             if (comment != null)
             {
                 _context.Comments.Remove(comment);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("PostWithComments", "Accueil", new { id = post.PostId });
         }
 
         private bool CommentExists(int id)

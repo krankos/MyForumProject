@@ -15,6 +15,7 @@ namespace MyForumProject.BL.Entities
         public int CommentId { get; set; }
 	    public string? Body { get; set; }
 		public DateTime? CreatedAt { get; set; }
+        public string? OwnerName { get; set; }
 
         [ForeignKey("Post")]
         public int PostId { get; set; }

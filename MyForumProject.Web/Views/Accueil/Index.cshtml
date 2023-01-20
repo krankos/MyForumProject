@@ -33,9 +33,9 @@
             <div class="card-footer text-muted d-flex justify-content-between">
                 @Html.DisplayFor(modelItem => item.CreatedAt)
                 <div>
-                   
-                    <a asp-action="Details" asp-route-id="@item.PostId">Details</a> 
-                  
+
+                    <a asp-action="PostWithComments" asp-route-id="@item.PostId">Comments  (@Html.DisplayFor(modelItem => item.Comments.Count))</a>
+
                 </div>
             </div>
         </div>

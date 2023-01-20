@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNetCore.Identity;
+@model MyForumProject.BL.Entities.Post;
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class=" d-flex justify-content-center">
+    <div class="card text-center w-75">
+        <div class="card-header d-flex justify-content-between">
+            <div class="d-flex flex-row ">
+                <p><strong>Author :&nbsp;</strong></p>
+
+                @Html.DisplayFor(model => model.OwnerName)
+
+            </div>
+            <div class="d-flex flex-row ">
+                <p><strong>From Blog:&nbsp;</strong></p>
+                @Html.DisplayFor(model => model.Blog.Nom)
+            </div>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">@Html.DisplayFor(model => model.Title)</h4>
+          
+            <div class="card-text"> @Html.Raw(@Model.Content)</div>
+
+        </div>
+        
+        
+        <div class="card-footer text-muted  d-flex justify-content-start ">
+            @Html.DisplayFor(model => model.CreatedAt)
+        </div>
+        <div class="container mt-3">
+
+            <div class="row  d-flex justify-content-center">
+
+                <div class="col-md-8">
+
+                    <div class="headings d-flex justify-content-between align-items-center mb-3">
+                        
+                        <h5>Comments  (@Html.DisplayFor(model => model.Comments.Count))</h5>
+
+                        <div class="buttons">
+
+                            <span class="badge bg-white d-flex flex-row align-items-center">
+                                <a asp-action="AddComment" asp-route-id="@Model.PostId">Add Comment</a>
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    @foreach (var item in Model.Comments)
+                    { 
+                       <div class="card p-3">
+
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div class="user d-flex flex-row align-items-center">
+
+                               
+                                <span>
+                                    <small class="font-weight-bold text-primary">@Html.DisplayFor(model => item.OwnerName)</small>
+                                    <small class="font-weight-bold"> @Html.DisplayFor(model => item.Body)</small>
+                                        
+                                       
+                                       
+                                </span>
+
+                            </div>
+
+
+                                <small>@Html.DisplayFor(model => item.CreatedAt)</small>
+                               
+
+                        </div>
+                            <a class="d-flex justify-content-end" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+                    
+                       </div>
+                    }
+                </div>
+            </div>
+              </div>
+
+
+    </div>
+
+</div>
+<br />
+<br />
