@@ -16,6 +16,7 @@ namespace MyForumProject.BL.Entities
 		[Required]
 		public string? Nom { get; set; }
         public string? Description { get; set; }
+        public string? OwnerName { get; set; }
         public virtual List<Post>? Posts { get; set; }
         
         [ForeignKey("Owner")]

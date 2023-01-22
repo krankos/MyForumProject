@@ -34,14 +34,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-             <td>
-                    @Html.DisplayFor(modelItem => item.OwnerId)
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerName)
             </td>
                 
             <td>
-                <a asp-action="Edit" asp-route-id="@item.BlogId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BlogId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BlogId">Delete</a>
+                @*if user is logged in and is the blog owner*@
+                    @if (User.Identity != null && User.Identity.Name==item.OwnerName)
+				{
+					<a asp-action="Edit" asp-route-id="@item.BlogId">Edit</a>
+				}
+                <a asp-action="Details" asp-route-id="@item.BlogId">Details</a>
+                @*if user is the blog owner*@
+                    @if (User.Identity != null && User.Identity.Name == item.OwnerName)
+                    {
+							<a asp-action="Delete" asp-route-id="@item.BlogId">Delete</a>
+						}
             </td>
         </tr>
 }

@@ -76,8 +76,11 @@
                                
 
                         </div>
-                            <a class="d-flex justify-content-end" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
-                    
+                            @if (User.Identity != null && User.Identity.IsAuthenticated && User.Identity.Name == item.OwnerName)
+                            {
+                                        <a class="d-flex justify-content-end" asp-action="Delete" asp-route-id="@item.CommentId">Delete</a>
+                            }
+
                        </div>
                     }
                 </div>

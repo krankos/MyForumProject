@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -51,40 +52,56 @@ namespace MyForumProject.Web.Controllers
         }
 
         // GET: Posts/Create
-        public IActionResult Create()
+        [Authorize]
+        public IActionResult Create(int? id)
         {
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "BlogId", "BlogId");
+            if (id == null || _context.Blogs == null)
+            {
+                return NotFound();
+            }
+            var blog = _context.Blogs.Find(id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
             return View();
+
         }
 
         // POST: Posts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostId,Title,Content,PublishedDateTime,BlogId")] Post post)
+        public async Task<IActionResult> Create(int id,[Bind("PostId,Title,Content,PublishedDateTime,BlogId")] Post post)
         {
+            var blog = _context.Blogs.Find(id);
+            if (blog == null)
+            {
+                return NotFound();
+            }
+            post.BlogId = id;
+            post.Blog = blog;
+
+
             if (ModelState.IsValid)
             {
                 var OwnerId = User.Identity.GetUserId();
                 var OwnerName = User.Identity.GetUserName();
                 post.OwnerId = OwnerId;
                 post.OwnerName = OwnerName;
-
-
-
-
-
-
+                post.Owner = _context.Users.Find(OwnerId);
+                post.CreatedAt = DateTime.Now;
                 _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Blogs", new { id = id });
             }
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "BlogId", "BlogId", post.BlogId);
             return View(post);
         }
 
         // GET: Posts/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Posts == null)
@@ -104,6 +121,7 @@ namespace MyForumProject.Web.Controllers
         // POST: Posts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Content,PublishedDateTime,BlogId")] Post post)
@@ -138,6 +156,7 @@ namespace MyForumProject.Web.Controllers
         }
 
         // GET: Posts/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Posts == null)
@@ -159,6 +178,7 @@ namespace MyForumProject.Web.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Posts == null)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -77,7 +78,7 @@ namespace MyForumProject.Web.Controllers
             return View(post);
         }
 
-
+        [Authorize]
         public IActionResult AddComment(int? id)
         {
             // Say hello and show the id of the post
@@ -103,6 +104,7 @@ namespace MyForumProject.Web.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddComment(int id, [Bind("CommentId,Body,CreatedDate,PostId,OwnerId")] Comment comment)
@@ -135,6 +137,7 @@ namespace MyForumProject.Web.Controllers
 
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             return RedirectToAction("Delete", "Comments", new { id });

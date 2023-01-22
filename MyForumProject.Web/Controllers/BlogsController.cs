@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Identity;
 
 using MyForumProject.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyForumProject.Web.Controllers
 {
@@ -57,6 +58,8 @@ namespace MyForumProject.Web.Controllers
             // get posts of the blog
             var posts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
             blog.Posts = posts;
+            // sort posts by CreatedAt
+            blog.Posts = blog.Posts.OrderByDescending(p => p.CreatedAt).ToList();
             if (blog.Posts == null)
             {
                 return NotFound();
@@ -67,8 +70,11 @@ namespace MyForumProject.Web.Controllers
         }
 
         // GET: Blogs/Create
+        [Authorize]
         public IActionResult Create()
         {
+           
+
             return View();
         }
 
@@ -88,7 +94,11 @@ namespace MyForumProject.Web.Controllers
 
 
                 blog.OwnerId = User.Identity.GetUserId();
+                blog.Owner = _context.Users.Find(blog.OwnerId);
+                blog.OwnerName = User.Identity.GetUserName();
                 Console.WriteLine(blog.OwnerId);
+                Console.WriteLine(blog.Owner);
+                Console.WriteLine(blog.OwnerName);
                 _context.Add(blog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -97,6 +107,7 @@ namespace MyForumProject.Web.Controllers
         }
 
         // GET: Blogs/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Blogs == null)
@@ -148,6 +159,7 @@ namespace MyForumProject.Web.Controllers
         }
 
         // GET: Blogs/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Blogs == null)
@@ -190,7 +202,7 @@ namespace MyForumProject.Web.Controllers
         }
 
         // create new blog post
-
+        [Authorize]
         public IActionResult CreatePost(int? id)
         {
             // Say hello and show the id of the blog
@@ -210,7 +222,7 @@ namespace MyForumProject.Web.Controllers
             var post = new Post();
             post.BlogId = blog.BlogId;
             Console.WriteLine(post.BlogId);
-            return View(post);
+            return RedirectToAction("Create", "Posts", new {id});
         }
 
         [HttpPost]
