@@ -122,7 +122,7 @@ namespace MyForumProject.Web.Controllers
                 // set owner
                comment.OwnerId = User.Identity.GetUserId();
                comment.Owner = _context.Users.Find(post.OwnerId);
-                comment.OwnerName = post.Owner.UserName;
+                comment.OwnerName = User.Identity.GetUserName();
                 User user = _context.Users.Find(comment.OwnerId);
 
                 if (user.Comments == null)
