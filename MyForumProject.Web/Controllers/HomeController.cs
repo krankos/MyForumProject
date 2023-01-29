@@ -3,12 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using MyForumProject.BL.Entities;
 using MyForumProject.Web.Models;
 using System.Diagnostics;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using MyForumProject.BL.Entities;
+using MyForumProject.DAL;
 
 namespace MyForumProject.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -31,7 +42,7 @@ namespace MyForumProject.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-	
+    
 
 
 }
