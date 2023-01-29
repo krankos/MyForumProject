@@ -262,11 +262,20 @@ namespace MyForumProject.Web.Controllers
                 post.OwnerId = User.Identity.GetUserId();
                 post.Owner = _context.Users.Find(post.OwnerId);
                 post.OwnerName = post.Owner.UserName;
+
+                User owner = _context.Users.Find(post.OwnerId);
+
+                if (owner.Posts == null)
+                {
+                    owner.Posts = new List<Post>();
+                }
+                owner.Posts.Append(post);
                 // dispalay owner info
                 Console.WriteLine(post.Owner.UserName);
                 DateTime now = DateTime.Now;
                 post.CreatedAt = now;
                 _context.Add(post);
+                _context.Update(owner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

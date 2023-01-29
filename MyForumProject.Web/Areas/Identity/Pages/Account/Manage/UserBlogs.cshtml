@@ -34,9 +34,10 @@ else
 									<td>@blog.Description</td>
 									
 									<td>
-										<a asp-page="/Blogs/Details" asp-route-id="@blog.BlogId" class="btn btn-primary">Details</a>
-										<a asp-page="/Blogs/Edit" asp-route-id="@blog.BlogId" class="btn btn-warning">Edit</a>
-										<a asp-page="/Blogs/Delete" asp-route-id="@blog.BlogId" class="btn btn-danger">Delete</a>
+										<a asp-action="BlogDetails" asp-route-id="@blog.BlogId" class="btn btn-primary">Details</a>
+												<a asp-action="EditBlog" asp-route-id="@blog.BlogId" class="btn btn-warning">Edit</a>
+														<a asp-action="DeleteBlog" asp-route-id="@blog.BlogId" class="btn btn-danger">Delete</a>
+										
 									</td>
 								</tr>
 					}

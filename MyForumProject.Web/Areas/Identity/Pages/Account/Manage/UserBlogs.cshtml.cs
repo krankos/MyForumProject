@@ -137,5 +137,21 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account.Manage
 
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> BlogDetails(int id)
+        {
+            Console.WriteLine("BlogDetails");
+            return RedirectToAction("Details","Blog", new { id = id });
+        }
+
+        public async  Task<IActionResult> EditBlog(int id)
+        {
+            return RedirectToAction("Edit", "Blog", new { id = id });
+        }
+
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            return RedirectToAction("Delete", "Blog", new { id = id });
+        }
     }
 }

@@ -94,7 +94,8 @@ namespace MyForumProject.Web.Controllers
                 post.Owner = _context.Users.Find(OwnerId);
 
                 User user = _context.Users.Find(OwnerId);
-                user.Posts.Add(post);
+                user.Posts = user.Posts ?? new List<Post>();
+                user.Posts.Append(post);
                 post.CreatedAt = DateTime.Now;
                 _context.Add(post);
                 _context.Update(user);

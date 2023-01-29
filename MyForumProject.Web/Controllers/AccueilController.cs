@@ -124,7 +124,12 @@ namespace MyForumProject.Web.Controllers
                comment.Owner = _context.Users.Find(post.OwnerId);
                 comment.OwnerName = post.Owner.UserName;
                 User user = _context.Users.Find(comment.OwnerId);
-                user.Comments.Add(comment);
+
+                if (user.Comments == null)
+                {
+                    user.Comments = new List<Comment>();
+                }
+                user.Comments.Append(comment);
                 DateTime now = DateTime.Now;
                 comment.CreatedAt = now;
                 _context.Add(comment);
