@@ -1,0 +1,49 @@
+﻿@page
+@model UserBlogsModel
+@{
+    ViewData["Title"] = "My Blogs";
+    ViewData["ActivePage"] = ManageNavPages.UserBlogs;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@*check if user has blogs*@
+@if (Model.Blogs == null || Model.Blogs.Count == 0)
+{
+		<div class="alert alert-info" role="alert">
+			You have no blogs yet. Create one now!
+		</div>
+}
+else
+{
+		<div class="row">
+			<div class="col-md-6">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Title</th>
+							<th scope="col">Description</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+					@foreach (var blog in Model.Blogs)
+					{
+								<tr>
+									<td>@blog.Nom</td>
+									<td>@blog.Description</td>
+									
+									<td>
+										<a asp-page="/Blogs/Details" asp-route-id="@blog.BlogId" class="btn btn-primary">Details</a>
+										<a asp-page="/Blogs/Edit" asp-route-id="@blog.BlogId" class="btn btn-warning">Edit</a>
+										<a asp-page="/Blogs/Delete" asp-route-id="@blog.BlogId" class="btn btn-danger">Delete</a>
+									</td>
+								</tr>
+					}
+					</tbody>
+				</table>
+			</div>
+		</div>
+}
+
+

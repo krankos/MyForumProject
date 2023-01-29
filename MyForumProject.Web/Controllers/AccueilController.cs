@@ -123,10 +123,12 @@ namespace MyForumProject.Web.Controllers
                comment.OwnerId = User.Identity.GetUserId();
                comment.Owner = _context.Users.Find(post.OwnerId);
                 comment.OwnerName = post.Owner.UserName;
-               
+                User user = _context.Users.Find(comment.OwnerId);
+                user.Comments.Add(comment);
                 DateTime now = DateTime.Now;
                 comment.CreatedAt = now;
                 _context.Add(comment);
+                _context.Update(user);
                 await _context.SaveChangesAsync();
                 //return RedirectToAction(nameof(Index));
                

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 
 using MyForumProject.DAL;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MyForumProject.Web.Controllers
 {
@@ -96,10 +97,25 @@ namespace MyForumProject.Web.Controllers
                 blog.OwnerId = User.Identity.GetUserId();
                 blog.Owner = _context.Users.Find(blog.OwnerId);
                 blog.OwnerName = User.Identity.GetUserName();
+
+                User owner = _context.Users.Find(blog.OwnerId);
+
+                if (owner.Blogs == null)
+                {
+                    owner.Blogs = new List<Blog>();
+                }
+
+                owner.Blogs.Append(blog);
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Console.WriteLine(owner.Blogs.Count);
+                Console.WriteLine("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+
                 Console.WriteLine(blog.OwnerId);
                 Console.WriteLine(blog.Owner);
                 Console.WriteLine(blog.OwnerName);
                 _context.Add(blog);
+                _context.Update(owner);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

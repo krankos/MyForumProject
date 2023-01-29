@@ -31,6 +31,12 @@ namespace  MyForumProject.Web.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string ChangePassword => "ChangePassword";
 
+        public static string UserBlogs => "UserBlogs";
+
+        public static string UserComments => "UserComments";
+
+        public static string UserPosts => "UserPosts";
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -79,6 +85,12 @@ namespace  MyForumProject.Web.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 
+        public static string UserBlogsNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserBlogs);
+
+        public static string UserCommentsNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserComments);
+
+        public static string UserPostsNavClass(ViewContext viewContext) => PageNavClass(viewContext, UserPosts);
+        
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.

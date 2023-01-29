@@ -92,8 +92,12 @@ namespace MyForumProject.Web.Controllers
                 post.OwnerId = OwnerId;
                 post.OwnerName = OwnerName;
                 post.Owner = _context.Users.Find(OwnerId);
+
+                User user = _context.Users.Find(OwnerId);
+                user.Posts.Add(post);
                 post.CreatedAt = DateTime.Now;
                 _context.Add(post);
+                _context.Update(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", "Blogs", new { id = id });
             }
