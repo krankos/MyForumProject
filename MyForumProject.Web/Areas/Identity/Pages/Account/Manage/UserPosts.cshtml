@@ -1,0 +1,53 @@
+﻿@page
+@model UserPostsModel
+@{
+    ViewData["Title"] = "My Posts";
+    ViewData["ActivePage"] = ManageNavPages.UserPosts;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@*check if user has blogs*@
+@if (Model.Posts == null || Model.Posts.Count == 0)
+{
+		<div class="alert alert-info" role="alert">
+			You have no posts yet. Create one now!
+		</div>
+}
+else
+{
+		@foreach (var item in Model.Posts)
+{
+    <div class=" d-flex justify-content-center">
+        <div class="card text-center w-75">
+            <div class="card-header d-flex justify-content-between">
+                <div class="d-flex flex-row ">
+                    <p><strong>Author :&nbsp;</strong></p>
+
+                   @Html.DisplayFor(modelItem => item.OwnerName)
+
+                </div>
+                
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>
+                <div class="card-text"> @Html.Raw(@item.Content)</div>
+
+            </div>
+            <div class="card-footer text-muted d-flex justify-content-between">
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+                
+                <div>
+                                    <a asp-action="PostWithComments" asp-route-id="@item.PostId" class="btn btn-primary">Details</a>
+                                                        <a asp-action="EditPost" asp-route-id="@item.PostId" class="btn btn-warning">Edit</a>
+                                                                <a asp-action="DeletePost" asp-route-id="@item.PostId" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        
+   </div>
+    <br />
+}
+}
+
+

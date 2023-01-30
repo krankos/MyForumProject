@@ -15,14 +15,14 @@ using MyForumProject.DAL;
 
 namespace MyForumProject.Web.Areas.Identity.Pages.Account.Manage
 {
-    public class UserCommentsModel : PageModel
+    public class UserPostsModel : PageModel
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
         private readonly MyForumProjectDbContext _context;
 
-        public UserCommentsModel(
+        public UserPostsModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<ChangePasswordModel> logger, MyForumProjectDbContext context)
@@ -34,7 +34,7 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account.Manage
         }
 
         // user has a list of blogs
-        public List<Comment> Comments { get; set; }
+        public List<Post> Posts { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -89,7 +89,7 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account.Manage
         {
             var owner = await _userManager.GetUserAsync(User);
             var ownerName = owner.UserName;
-            Comments = _context.Comments.Where(b => b.OwnerName == ownerName).ToList();
+            Posts = _context.Posts.Where(b => b.OwnerName == ownerName).ToList();
 
 
 
@@ -138,6 +138,20 @@ namespace MyForumProject.Web.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
 
+        public async Task<IActionResult> BlogDetails(int id)
+        {
+            Console.WriteLine("BlogDetails");
+            return RedirectToAction("Details", "Blog", new { id = id });
+        }
 
+        public async Task<IActionResult> EditBlog(int id)
+        {
+            return RedirectToAction("Edit", "Blog", new { id = id });
+        }
+
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            return RedirectToAction("Delete", "Blog", new { id = id });
+        }
     }
 }

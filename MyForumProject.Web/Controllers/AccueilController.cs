@@ -174,6 +174,39 @@ namespace MyForumProject.Web.Controllers
             return RedirectToAction("Delete", "Blogs", new { id = id });
         }
 
+        public async Task<IActionResult> PostDetails(int id)
+        {
+            Console.WriteLine("BlogDetails");
+            return RedirectToAction("Details", "Posts", new { id = id });
+        }
+
+        public async Task<IActionResult> EditPost(int id)
+        {
+            if (User.Identity.GetUserId() != _context.Posts.Find(id).OwnerId)
+            {
+                return RedirectToAction("Index", "Accueil");
+            }
+            return RedirectToAction("Edit", "Posts", new { id = id });
+        }
+
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            if (User.Identity.GetUserId() != _context.Posts.Find(id).OwnerId)
+            {
+                return RedirectToAction("Index", "Accueil");
+            }
+            return RedirectToAction("Delete", "Posts", new { id = id });
+        }
+
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            if (User.Identity.GetUserId() != _context.Comments.Find(id).OwnerId)
+            {
+                return RedirectToAction("Index", "Accueil");
+            }
+            return RedirectToAction("Delete", "Comments", new { id = id });
+        }
+
 
     }
    
