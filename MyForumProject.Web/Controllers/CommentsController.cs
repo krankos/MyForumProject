@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -62,17 +63,39 @@ namespace MyForumProject.Web.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentId,Body,CreatedDate,PostId,OwnerId")] Comment comment)
+        public async Task<IActionResult> Create(int id, [Bind("CommentId,Body,CreatedDate,PostId,OwnerId")] Comment comment)
         {
+            // find the post by id and set it to the comment
+            var post = _context.Posts.Find(id);
+            comment.Post = post;
+            // set the post id
+            comment.PostId = post.PostId;
+
+
             if (ModelState.IsValid)
             {
+
+                // set owner
+                comment.OwnerId = User.Identity.GetUserId();
+                comment.Owner = _context.Users.Find(post.OwnerId);
+                comment.OwnerName = User.Identity.GetUserName();
+                User user = _context.Users.Find(comment.OwnerId);
+
+                if (user.Comments == null)
+                {
+                    user.Comments = new List<Comment>();
+                }
+                user.Comments.Append(comment);
+                DateTime now = DateTime.Now;
+                comment.CreatedAt = now;
                 _context.Add(comment);
+                _context.Update(user);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+
             }
-            ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Id", comment.OwnerId);
-            ViewData["CommentId"] = new SelectList(_context.Posts, "PostId", "OwnerId", comment.CommentId);
-            return View(comment);
+            return RedirectToAction("PostWithComments", "Accueil", new { id = post.PostId });
+
         }
 
 

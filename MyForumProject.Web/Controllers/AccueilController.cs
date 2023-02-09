@@ -98,8 +98,8 @@ namespace MyForumProject.Web.Controllers
             var comment = new Comment();
             comment.PostId = (int)id;
             Console.WriteLine(comment.PostId);
-            return View(comment);
-            
+            return RedirectToAction("Create", "Comments", new { id = post.PostId });
+
 
 
         }
@@ -140,7 +140,7 @@ namespace MyForumProject.Web.Controllers
             }
             // return View("Details",post);
             //return RedirectToAction("Details", "Posts", new { id = post.PostId });
-            return RedirectToAction("PostWithComments", "Accueil", new { id = post.PostId });
+            return RedirectToAction("PostsWithComments", "Accueil", new { id = post.PostId });
 
         }
 
