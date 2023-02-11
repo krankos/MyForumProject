@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyForumProject.DAL;
 using MyForumProject.BL.Entities;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using WebPWrecover.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,9 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 var app = builder.Build();
 
