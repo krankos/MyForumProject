@@ -121,7 +121,6 @@ namespace MyForumProject.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "BlogId", "BlogId", post.BlogId);
             return View(post);
         }
 
@@ -131,13 +130,14 @@ namespace MyForumProject.Web.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Content,CreatedAt,BlogId, OwnerName,OwnerId,Owner,Blog")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Content,BlogId, OwnerName, CreatedAt, Owner, Blog")] Post post)
         {
             if (id != post.PostId)
             {
+                Console.WriteLine("id: " + id + "PostId: " + post.PostId);
                 return NotFound();
             }
-
+            Console.WriteLine("Post id: " + post.PostId);
             if (ModelState.IsValid)
             { // set the date time using the id of the post
                 Console.WriteLine("jit");
@@ -146,33 +146,36 @@ namespace MyForumProject.Web.Controllers
                 Console.WriteLine(post.Content);
 
                 // get the blog from the database
-                var blog = _context.Blogs.Find(id);
-                if (blog == null)
-                {
-                    return NotFound();
-                }
+                //var blog = _context.Blogs.Find(id);
+                //if (blog == null)
+                //{
+                //    return NotFound();
+                //}
                 // set the blog id using the id of the post7
-                post.BlogId = _context.Posts.Find(id).BlogId;
-                // set the blog using the id of the post
-                post.Blog = _context.Posts.Find(id).Blog;
+                //post.BlogId = _context.Posts.Find(id).BlogId;
+                //// set the blog using the id of the post
+                //post.Blog = _context.Posts.Find(id).Blog;
 
 
 
-                // set post owner name using the id of the post
-                post.OwnerName = _context.Posts.Find(id).OwnerName;
-                // set post owner id using the id of the post
-                post.OwnerId = _context.Posts.Find(id).OwnerId;
-                // set post owner using the id of the post
-                post.Owner = _context.Posts.Find(id).Owner;
-                // set post created at using the id of the post
-                post.CreatedAt = _context.Posts.Find(id).CreatedAt;
+                //// set post owner name using the id of the post
+                //post.OwnerName = _context.Posts.Find(id).OwnerName;
+                //// set post owner id using the id of the post
+                //post.OwnerId = _context.Posts.Find(id).OwnerId;
+                //// set post owner using the id of the post
+                //post.Owner = _context.Posts.Find(id).Owner;
+                //// set post created at using the id of the post
+                //post.CreatedAt = _context.Posts.Find(id).CreatedAt;
 
 
 
+                Console.WriteLine("Blog id: " + post.BlogId);
+                Console.WriteLine("Blog id: " + post.Blog);
 
-                    _context.Update(post);
+
+                _context.Update(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Blogs", new { id =post.BlogId });
+                return RedirectToAction("Details", "Blogs", new { id = post.BlogId });
             }
           
             return View(post);
