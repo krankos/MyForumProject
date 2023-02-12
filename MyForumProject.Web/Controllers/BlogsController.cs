@@ -289,7 +289,7 @@ namespace MyForumProject.Web.Controllers
 
         public async Task<IActionResult> EditPost(int id)
         {
-            if (User.Identity.GetUserId() != _context.Posts.Find(id).OwnerId)
+            if (User.Identity.GetUserName() != _context.Posts.Find(id).OwnerName)
             {
                 return RedirectToAction("Index", "Accueil");
             }
@@ -298,7 +298,7 @@ namespace MyForumProject.Web.Controllers
 
         public async Task<IActionResult> DeletePost(int id)
         {
-            if (User.Identity.GetUserId() != _context.Posts.Find(id).OwnerId)
+            if (User.Identity.GetUserName() != _context.Posts.Find(id).OwnerName)
             {
                 return RedirectToAction("Index", "Accueil");
             }
