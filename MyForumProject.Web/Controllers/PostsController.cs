@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyForumProject.BL.Entities;
 using MyForumProject.DAL;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace MyForumProject.Web.Controllers
 {
@@ -23,12 +24,13 @@ namespace MyForumProject.Web.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
             var myForumProjectDbContext = _context.Posts.Include(p => p.Blog);
-            return View(await myForumProjectDbContext.ToListAsync());
-             
-            
+            return RedirectToAction("Details", "Blogs", new { id = id });
+
+
+
 
         }
 
@@ -74,7 +76,7 @@ namespace MyForumProject.Web.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int id,[Bind("PostId,Title,Content,PublishedDateTime,BlogId")] Post post)
+        public async Task<IActionResult> Create(int id, [Bind("PostId,Title,Content,PublishedDateTime,BlogId")] Post post)
         {
             var blog = _context.Blogs.Find(id);
             if (blog == null)
@@ -129,7 +131,7 @@ namespace MyForumProject.Web.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Content,PublishedDateTime,BlogId")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("PostId,Title,Content,CreatedAt,BlogId, OwnerName,OwnerId,Owner,Blog")] Post post)
         {
             if (id != post.PostId)
             {
@@ -137,26 +139,42 @@ namespace MyForumProject.Web.Controllers
             }
 
             if (ModelState.IsValid)
-            {
-                try
+            { // set the date time using the id of the post
+                Console.WriteLine("jit");
+                // print post on the console 
+                Console.WriteLine(post.CreatedAt);
+                Console.WriteLine(post.Content);
+
+                // get the blog from the database
+                var blog = _context.Blogs.Find(id);
+                if (blog == null)
                 {
+                    return NotFound();
+                }
+                // set the blog id using the id of the post7
+                post.BlogId = _context.Posts.Find(id).BlogId;
+                // set the blog using the id of the post
+                post.Blog = _context.Posts.Find(id).Blog;
+
+
+
+                // set post owner name using the id of the post
+                post.OwnerName = _context.Posts.Find(id).OwnerName;
+                // set post owner id using the id of the post
+                post.OwnerId = _context.Posts.Find(id).OwnerId;
+                // set post owner using the id of the post
+                post.Owner = _context.Posts.Find(id).Owner;
+                // set post created at using the id of the post
+                post.CreatedAt = _context.Posts.Find(id).CreatedAt;
+
+
+
+
                     _context.Update(post);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PostExists(post.PostId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Blogs", new { id =post.BlogId });
             }
-            ViewData["BlogId"] = new SelectList(_context.Blogs, "BlogId", "BlogId", post.BlogId);
+          
             return View(post);
         }
 
@@ -195,14 +213,14 @@ namespace MyForumProject.Web.Controllers
             {
                 _context.Posts.Remove(post);
             }
-            
+
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View(post);
         }
 
         private bool PostExists(int id)
         {
-          return _context.Posts.Any(e => e.PostId == id);
+            return _context.Posts.Any(e => e.PostId == id);
         }
     }
 }
