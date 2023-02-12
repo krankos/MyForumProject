@@ -153,6 +153,15 @@ namespace MyForumProject.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                //get the blog from id 
+                var blogFromId = await _context.Blogs.FindAsync(id);
+                //if the blog is not found
+                if (blogFromId == null)
+                {
+                    return NotFound();
+                }
+               
+                
                 try
                 {
                     _context.Update(blog);
