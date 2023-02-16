@@ -60,7 +60,12 @@ namespace MyForumProject.Web.Controllers
                 {
                     Console.WriteLine(comment.Body);
                 }
-                post.Comments = newComments;
+            //check if post in not null
+            if (post != null)
+            { post.Comments = newComments; }
+                //set the comments to the post
+                
+               
                 //
             
 

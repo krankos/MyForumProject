@@ -19,13 +19,15 @@ namespace MyForumProject.Web.Controllers
         public CommentsController(MyForumProjectDbContext context)
         {
             _context = context;
+
         }
 
         // GET: Comments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             var myForumProjectDbContext = _context.Comments.Include(c => c.Owner).Include(c => c.Post);
-            return View(await myForumProjectDbContext.ToListAsync());
+            var post = _context.Posts.Find(id);
+            return RedirectToAction("PostWithComments", "Accueil", new { id = post.PostId });
         }
 
         // GET: Comments/Details/5

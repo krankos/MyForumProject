@@ -145,30 +145,6 @@ namespace MyForumProject.Web.Controllers
                 Console.WriteLine(post.CreatedAt);
                 Console.WriteLine(post.Content);
 
-                // get the blog from the database
-                //var blog = _context.Blogs.Find(id);
-                //if (blog == null)
-                //{
-                //    return NotFound();
-                //}
-                // set the blog id using the id of the post7
-                //post.BlogId = _context.Posts.Find(id).BlogId;
-                //// set the blog using the id of the post
-                //post.Blog = _context.Posts.Find(id).Blog;
-
-
-
-                //// set post owner name using the id of the post
-                //post.OwnerName = _context.Posts.Find(id).OwnerName;
-                //// set post owner id using the id of the post
-                //post.OwnerId = _context.Posts.Find(id).OwnerId;
-                //// set post owner using the id of the post
-                //post.Owner = _context.Posts.Find(id).Owner;
-                //// set post created at using the id of the post
-                //post.CreatedAt = _context.Posts.Find(id).CreatedAt;
-
-
-
                 Console.WriteLine("Blog id: " + post.BlogId);
                 Console.WriteLine("Blog id: " + post.Blog);
 
@@ -218,7 +194,7 @@ namespace MyForumProject.Web.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return View(post);
+            return RedirectToAction("Details", "Blogs", new { id = post.BlogId });
         }
 
         private bool PostExists(int id)

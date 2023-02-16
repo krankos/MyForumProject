@@ -41,9 +41,17 @@ namespace MyForumProject.Web.Controllers
 			
             
 		}
+        
+            public async Task<IActionResult> PostWithComments(int id)
+        {
+            return RedirectToAction("PostWithComments", "Accueil", new { id = id });
 
-		// GET: Blogs/Details/5
-		public async Task<IActionResult> Details(int? id)
+
+
+        }
+
+        // GET: Blogs/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Blogs == null)
             {
@@ -144,7 +152,7 @@ namespace MyForumProject.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BlogId,Nom,Description")] Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("BlogId,Nom,Description,OwnerName,Owner")] Blog blog)
         {
             if (id != blog.BlogId)
             {
@@ -153,13 +161,7 @@ namespace MyForumProject.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                //get the blog from id 
-                var blogFromId = await _context.Blogs.FindAsync(id);
-                //if the blog is not found
-                if (blogFromId == null)
-                {
-                    return NotFound();
-                }
+               
                
                 
                 try

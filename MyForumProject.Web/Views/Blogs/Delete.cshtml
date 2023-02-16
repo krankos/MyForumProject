@@ -24,10 +24,13 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
-    
+   
     <form asp-action="Delete">
         <input type="hidden" asp-for="BlogId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <div class="form-group d-flex justify-content-between">
+             <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
+        </div>
+       
     </form>
 </div>

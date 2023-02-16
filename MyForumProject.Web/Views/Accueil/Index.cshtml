@@ -33,8 +33,18 @@
             <div class="card-footer text-muted d-flex justify-content-between">
                 @Html.DisplayFor(modelItem => item.CreatedAt)
                 <div>
+                    @if (item.Comments == null || item.Comments.Count == 0)
+                    {
+                          <a asp-action="PostWithComments" asp-route-id="@item.PostId"> 0 Comment</a>
+                    }
+                   @if(item.Comments != null && item.Comments.Count==1)
+                    {
+                         <a asp-action="PostWithComments" asp-route-id="@item.PostId"> 1 Comment</a>
+                    }
+                    @if (item.Comments != null && item.Comments.Count != 1 && item.Comments.Count != 0)
+                    {
 
-                    <a asp-action="PostWithComments" asp-route-id="@item.PostId">Comments  (@Html.DisplayFor(modelItem => item.Comments.Count))</a>
+                    <a asp-action="PostWithComments" asp-route-id="@item.PostId"> (@Html.DisplayFor(modelItem => item.Comments.Count)) Comments </a> }
 
                 </div>
             </div>
