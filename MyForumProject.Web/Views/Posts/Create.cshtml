@@ -41,9 +41,9 @@
                 <span asp-validation-for="PublishedDateTime" class="text-danger"></span>
             </div>*@
             <br />
-            <div class="form-group d-flex justify-content-between">
-                <input type="submit" value="Create Post" class="btn btn-primary" />
+            <div class="form-group d-flex justify-content-between">   
                 <a asp-action="Index" asp-route-id="@Model?.BlogId">Back to List</a>
+                <input type="submit" value="Create Post" class="btn btn-primary" />
             </div>
         </form>
     </div>

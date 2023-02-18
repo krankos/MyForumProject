@@ -5,11 +5,13 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
+<div class="d-flex flex-row justify-content-around ">
+<div >
+        <div class="w-100">
+          
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+                <br />
+                <h2> Create a new account.  </h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
@@ -37,12 +39,14 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <br />
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
     
 </div>
-
+<img src="/css/bot.svg" width="500px" />
+</div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
