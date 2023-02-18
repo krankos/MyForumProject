@@ -19,7 +19,7 @@
             
 			
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name!</a>
-            @Html.DisplayFor(modelItem => item.Blog.Nom)
+            @Html.DisplayFor(modelItem => item.Blog.Name)
   </div>
   <div class="card-body">
             <h4 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h4>

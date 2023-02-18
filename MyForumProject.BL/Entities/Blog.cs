@@ -14,7 +14,7 @@ namespace MyForumProject.BL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BlogId { get; set; }
 		[Required]
-		public string? Nom { get; set; }
+		public string? Name { get; set; }
         public string? Description { get; set; }
         public string? OwnerName { get; set; }
         public virtual List<Post>? Posts { get; set; }

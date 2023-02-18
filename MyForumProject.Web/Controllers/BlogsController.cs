@@ -66,6 +66,21 @@ namespace MyForumProject.Web.Controllers
             }
             // get posts of the blog
             var posts = await _context.Posts.Where(p => p.BlogId == id).ToListAsync();
+
+            // for each post get comments if any else set it to null
+            foreach (var post in posts)
+            {
+                var comments = await _context.Comments.Where(c => c.PostId == post.PostId).ToListAsync();
+                if (comments.Count == 0)
+                {
+                    post.Comments = null;
+                }
+                else
+                {
+                    post.Comments = comments;
+                }
+            }
+
             blog.Posts = posts;
             // sort posts by CreatedAt
             blog.Posts = blog.Posts.OrderByDescending(p => p.CreatedAt).ToList();
@@ -92,7 +107,7 @@ namespace MyForumProject.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BlogId,Nom,Description,OwnerId")] Blog blog)
+        public async Task<IActionResult> Create([Bind("BlogId,Name,Description,OwnerId")] Blog blog)
         {
             if (ModelState.IsValid)
             {  // get current user id from the session
@@ -152,7 +167,7 @@ namespace MyForumProject.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BlogId,Nom,Description,OwnerName,Owner")] Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("BlogId,Name,Description,OwnerName,Owner")] Blog blog)
         {
             if (id != blog.BlogId)
             {

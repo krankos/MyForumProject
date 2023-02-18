@@ -12,8 +12,8 @@ using MyForumProject.DAL;
 namespace MyForumProject.DAL.Migrations
 {
     [DbContext(typeof(MyForumProjectDbContext))]
-    [Migration("20230129122457_mm")]
-    partial class mm
+    [Migration("20230217192623_changed_blog_name")]
+    partial class changed_blog_name
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
