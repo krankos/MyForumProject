@@ -23,18 +23,43 @@ namespace MyForumProject.Web.Controllers
 		public async Task<IActionResult> Index()
 		{
 			var myForumProjectDbContext = _context.Posts.Include(p => p.Blog);
+            //blog de chaque post
+            var blogs = await _context.Blogs.ToListAsync();
+            
+            var posts = await _context.Posts.ToListAsync();
+            // importer le blog de chaque post 
             //comments of each post 
             var comments = await _context.Comments.ToListAsync();
-           
+            var newposts = new List<Post>();
+            for (var i = posts.Count - 1; i >= 0; i--)
+            { // chercher et importer le blog de cette post
+                var blog = await _context.Blogs.Where(b => b.BlogId == posts[i].BlogId).FirstOrDefaultAsync();
+                //ajouter le blog a la post
+                posts[i].Blog = blog;
+                newposts.Add(posts[i]);
+            }
+
+            
+            foreach (var item in newposts)
+            {
+                Console.WriteLine(item.Title);
+            }
+            //check if post in not null
+            if (posts != null)
+            { posts = newposts; }
+
+            if (posts == null)
+            {
+                return NotFound();
+            }
+
+
+            // retourner la liste newposts
+            return View(posts);
 
 
 
-
-            return View(await myForumProjectDbContext.ToListAsync());
-
-
-
-		}
+        }
         public async Task<IActionResult> PostWithComments(int? id)
         {
 

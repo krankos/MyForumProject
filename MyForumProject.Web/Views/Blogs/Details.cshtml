@@ -106,7 +106,7 @@
                         @if (@post.Comments != null && @post.Comments.Count != 1 && @post.Comments.Count != 0)
                         {
 
-                            <a asp-action="PostWithComments" asp-route-id="@post.PostId"> (@Html.DisplayFor(modelItem => @post.Comments.Count)) Comments </a>
+                            <a asp-action="PostWithComments" asp-route-id="@post.PostId"> (@Html.DisplayFor(modelItem =>@post.Comments.Count)) Comments </a>
                         }
                     @if (User.Identity != null && User.Identity.Name == @post.OwnerName)
                     {
